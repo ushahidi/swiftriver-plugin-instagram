@@ -1,0 +1,3 @@
+[submodule "vendor/instagram"]
+	path = vendor/instagram
+	url = git://github.com/macuenca/Instagram-PHP-API.git
