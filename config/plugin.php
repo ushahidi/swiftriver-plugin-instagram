@@ -39,9 +39,6 @@ return array(
 				'values' => array(),
 				'placeholder' => 'E.g. ushahidi, crowdmap'
 			)
-		),
-
-		// Has Settings
-		'settings'      => TRUE
+		)
 	),
 );

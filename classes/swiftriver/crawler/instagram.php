@@ -185,6 +185,7 @@ class Swiftriver_Crawler_Instagram {
 										)
 									);
 
+				// Get Instagram Image
 				if ( isset($instagram['images']['low_resolution']) )
 				{
 					$droplet['media'] = array(
@@ -194,6 +195,33 @@ class Swiftriver_Crawler_Instagram {
 												'type' => 'image'
 											),
 										);
+				}
+
+				// Get Instagram Location
+				if ( isset($instagram['location']['latitude']) AND
+					isset($instagram['location']['longitude']) )
+				{
+					$droplet['places'] = array(
+											array(
+												'place_name' => ( isset($instagram['location']['name']) ) ? $instagram['location']['name'] : 'unknown',
+												'latitude' => $instagram['location']['latitude'],
+												'longitude' => $instagram['location']['longitude'],
+												'source' => 'instagram'
+											),
+										);
+				}
+
+				// Get Attached Tags
+				if ( isset($instagram['tags']) )
+				{
+					$droplet['tags'] = array();
+					foreach ($instagram['tags'] as $tag)
+					{
+						$droplet['tags'][] = array(
+											'tag_name' => $tag,
+											'tag_type' => 'instagram'
+										);
+					}
 				}
 
 				Swiftriver_Dropletqueue::add($droplet);				

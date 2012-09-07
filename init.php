@@ -19,7 +19,7 @@ class Instagram_Init {
 		// Register an installer
 		Swiftriver_Plugins::register('instagram', array(new Instagram_Install(), 'create'));
 
-	    // Hook into the river settings page
+		// Hook into the river settings page
 		Swiftriver_Event::add('swiftriver.river.settings.nav', array($this, 'settings_nav'));
 	}
 
