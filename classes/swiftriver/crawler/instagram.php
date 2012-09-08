@@ -47,32 +47,30 @@ class Swiftriver_Crawler_Instagram {
 
 		if ( ! empty($filter_options))
 		{
-			// Get this Rivers Access Info
-			$settings = ORM::factory('river_instagram')
-				->where('river_id', '=', $river_id)
-				->find();
+			// Setting items
+			$settings = array(
+				'instagram_client_id' => '',
+				'instagram_client_secret' => '',
+				'instagram_token' => ''
+			);
 
-			if ( ! $settings->loaded() )
+			if ( Model_Setting::get_settings(array_keys($settings)) )
 			{
-				Kohana::$log->add(Log::ERROR, 'River id: :river_id has not been set up for Instagram',
-					array(':river_id' => $river_id));
-			
-				return FALSE;
+				$settings = Model_Setting::get_settings(array_keys($settings));
 			}
 
-			if ( ! $settings->client_id OR 
-				! $settings->client_secret OR
-				! $settings->token)
+			if ( ! $settings['instagram_client_id'] OR 
+				! $settings['instagram_client_secret'] OR
+				! $settings['instagram_token'])
 			{
-				Kohana::$log->add(Log::ERROR, 'River id: :river_id has not been authorized as a client on Instagram',
-					array(':river_id' => $river_id));
+				Kohana::$log->add(Log::ERROR, 'SwiftRiver has not been authorized as a client on Instagram');
 			
 				return FALSE;
 			}
 
 			$config = array(
-				'client_id' => $settings->client_id,
-				'client_secret' => $settings->client_secret,
+				'client_id' => $settings['instagram_client_id'],
+				'client_secret' => $settings['instagram_client_secret'],
 				'grant_type' => 'authorization_code',
 				'redirect_uri' => ''
 			);
@@ -82,12 +80,11 @@ class Swiftriver_Crawler_Instagram {
 
 			try
 			{
-				$instagram->setAccessToken($settings->token);
+				$instagram->setAccessToken($settings['instagram_token']);
 			}
 			catch (Exception $e)
 			{
-				Kohana::$log->add(Log::ERROR, 'Invalid Instagram token for river id: :river_id',
-					array(':river_id' => $river_id));
+				Kohana::$log->add(Log::ERROR, 'Invalid Instagram token');
 			
 				return FALSE;
 			}

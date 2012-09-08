@@ -25,6 +25,9 @@ return array(
 		// Designate as a channel
 		'channel'       => TRUE,
 
+		// Has settings
+		'settings'       => TRUE,
+
 		// Fields
 		'channel_options' => array(
 			'keyword' => array(
